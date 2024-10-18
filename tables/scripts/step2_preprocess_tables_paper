@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+#set -x
+
+TDIR=$(cd "$(dirname "$0")/../" ; pwd -P)
+
+$TDIR/scripts/preprocess_tables tables_paper

@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+#set -x
+
+TDIR=$(cd "$(dirname "$0")/../" ; pwd -P)
+
+
+if [ $# -eq 0 ]; then
+  echo "Error: this script expects an argument, for instance: ./preprocess_tables tables_paper or ./preprocess_tables tables_ssbd_rsb"
+else
+  table_basename=$1
+  template=$TDIR/templates/$table_basename.tex
+  output=$TDIR/$table_basename.tex
+fi
+
+### aux functions section #####################################################
+get_index_type0()
+{
+  case "$1" in
+   "b")
+     echo "1"
+     ;;
+   "i")
+     echo "2"
+     ;;
+   "o")
+     echo "3"
+     ;;
+  esac
+}
+
+get_index_type1()
+{
+  case "$1" in
+   "b")
+     echo "2"
+     ;;
+   "i")
+     echo "3"
+     ;;
+   "o")
+     echo "4"
+     ;;
+  esac
+}
+
+get_index_type2()
+{
+  case "$1" in
+   "b")
+     echo "3"
+     ;;
+   "i")
+     echo "4"
+     ;;
+   "o")
+     echo "5"
+     ;;
+  esac
+}
+
+escape() {
+  echo "$1" | 
+  sed -e 's/[\/&]/\\&/g' \
+      -e 's/\$/\\$/g' \
+      -e 's/{/\\{/g' \
+      -e 's/}/\\}/g'
+}
+
+###############################################################################
+# clear output file (the one that will contain all the tables)
+echo "" > $output
+
+### process file ##############################################################
+for cpu in $(ls $TDIR/data/extracted/$table_basename | awk 'BEGIN { RS="\n"; FS="__" } { print $1 }' | sort -g -r -u)
+do
+  temporary_file=${output/.tex/}_${cpu}.tex
+  cp $template $temporary_file
+
+  cpu_text=${cpu/_/ }
+
+  sed -i "s|\${cpu_text}|$cpu_text|g" $temporary_file
+  sed -i "s|\${cpu}|$cpu|g" $temporary_file
+
+  cat $temporary_file | grep -Eo "GET\(.*\)" | sort -u |
+  while read get
+  do
+    var=$get
+    var=${var/GET(/}
+    var=${var/)/}
+
+    IFS=':'
+    set -- $var
+
+    file=$TDIR/data/extracted/$table_basename/$1
+
+    case "$file" in
+
+        *jade_scalarmult_*|*jade_kem_*)
+            index=$(get_index_type0 "$2")
+            value=$(cat $file | cut -d',' -f$index)
+            sed -i "s|$get|$value|g" $temporary_file
+            # echo "type 0 - $file; $index; $value"
+            ;;
+
+        *jade_hash_*|*jade_onetimeauth_*|*jade_secretbox_*|*jade_stream_*)
+            input_length=$2
+            index=$(get_index_type1 "$3")
+            value=$(cat $file | grep -E "^$input_length," | cut -d',' -f$index)
+            sed -i "s|$get|$value|g" $temporary_file
+            # echo "type 0 - $file; $input_length; $index; $value"
+            ;;
+
+        *jade_xof_*)
+            output_length=$2
+            input_length=$3
+            index=$(get_index_type2 "$4")
+            value=$(cat $file | grep -E "^$output_length,$input_length," | cut -d',' -f$index)
+            sed -i "s|$get|$value|g" $temporary_file
+            ;;
+        *)
+            echo "Error: Something went wrong: $file."
+            ;;
+    esac
+  done
+
+  cat $temporary_file >> $output
+  rm $temporary_file
+done
+
+

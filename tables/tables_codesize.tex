@@ -1,0 +1,280 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% code size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\tabcolsep}{4pt}
+\begin{table}
+    \caption{Object size in bytes.}
+    \label{tab:results:codesize}
+  \begin{tabular}{lrrr}
+  \toprule
+Impl. & plain  & +v1 & +v1+RSB \\
+
+crypto-hash/sha256/amd64/ref &
+10920 &
+10824 &
+11416\\ 
+
+
+crypto-hash/sha3-224/amd64/avx2 &
+6072 &
+6528 &
+6496\\ 
+
+
+crypto-hash/sha3-224/amd64/ref &
+8536 &
+8376 &
+8344\\ 
+
+
+crypto-hash/sha3-256/amd64/avx2 &
+6072 &
+6528 &
+6496\\ 
+
+
+crypto-hash/sha3-256/amd64/ref &
+8536 &
+8376 &
+8344\\ 
+
+
+crypto-hash/sha3-384/amd64/avx2 &
+6072 &
+6528 &
+6496\\ 
+
+
+crypto-hash/sha3-384/amd64/ref &
+8536 &
+8376 &
+8344\\ 
+
+
+crypto-hash/sha3-512/amd64/avx2 &
+6072 &
+6528 &
+6496\\ 
+
+
+crypto-hash/sha3-512/amd64/ref &
+8536 &
+8376 &
+8344\\ 
+
+
+crypto-kem/kyber/kyber512/amd64/avx2 &
+143664 &
+149024 &
+184240\\ 
+
+
+crypto-kem/kyber/kyber768/amd64/avx2 &
+191336 &
+203192 &
+235304\\ 
+
+
+crypto-onetimeauth/poly1305/amd64/avx2 &
+9456 &
+9456 &
+9456\\ 
+
+
+crypto-onetimeauth/poly1305/amd64/avx &
+10016 &
+10048 &
+10048\\ 
+
+
+crypto-onetimeauth/poly1305/amd64/ref &
+2472 &
+2496 &
+2496\\ 
+
+
+crypto-scalarmult/curve25519/amd64/mulx &
+18912 &
+18816 &
+18816\\ 
+
+
+crypto-scalarmult/curve25519/amd64/ref4 &
+11616 &
+11536 &
+12944\\ 
+
+
+crypto-scalarmult/curve25519/amd64/ref5 &
+13568 &
+13504 &
+14952\\ 
+
+
+crypto-secretbox/xsalsa20poly1305/amd64/avx2 &
+24568 &
+24536 &
+24536\\ 
+
+
+crypto-secretbox/xsalsa20poly1305/amd64/avx &
+24208 &
+24208 &
+24208\\ 
+
+
+crypto-secretbox/xsalsa20poly1305/amd64/ref &
+11736 &
+11496 &
+11496\\ 
+
+
+crypto-stream/chacha/chacha12/amd64/avx2 &
+18240 &
+18240 &
+18240\\ 
+
+
+crypto-stream/chacha/chacha12/amd64/avx &
+16480 &
+16512 &
+16512\\ 
+
+
+crypto-stream/chacha/chacha12/amd64/ref &
+5288 &
+5312 &
+5312\\ 
+
+
+crypto-stream/chacha/chacha20/amd64/avx2 &
+18240 &
+18240 &
+18240\\ 
+
+
+crypto-stream/chacha/chacha20/amd64/avx &
+16480 &
+16512 &
+16512\\ 
+
+
+crypto-stream/chacha/chacha20/amd64/ref &
+5288 &
+5312 &
+5312\\ 
+
+
+crypto-stream/chacha/chacha20-ietf/amd64/avx2 &
+18568 &
+18600 &
+18600\\ 
+
+
+crypto-stream/chacha/chacha20-ietf/amd64/avx &
+16736 &
+16736 &
+16736\\ 
+
+
+crypto-stream/chacha/chacha20-ietf/amd64/ref &
+5400 &
+5416 &
+5416\\ 
+
+
+crypto-stream/salsa20/salsa2012/amd64/avx2 &
+11632 &
+11664 &
+11664\\ 
+
+
+crypto-stream/salsa20/salsa2012/amd64/avx &
+10920 &
+10952 &
+10952\\ 
+
+
+crypto-stream/salsa20/salsa2012/amd64/ref &
+5880 &
+5912 &
+5912\\ 
+
+
+crypto-stream/salsa20/salsa20/amd64/avx2 &
+11576 &
+11608 &
+11608\\ 
+
+
+crypto-stream/salsa20/salsa20/amd64/avx &
+10872 &
+10904 &
+10904\\ 
+
+
+crypto-stream/salsa20/salsa20/amd64/ref &
+5840 &
+5872 &
+5872\\ 
+
+
+crypto-stream/xsalsa20/amd64/avx2 &
+13392 &
+13168 &
+13168\\ 
+
+
+crypto-stream/xsalsa20/amd64/avx &
+12568 &
+12344 &
+12344\\ 
+
+
+crypto-stream/xsalsa20/amd64/ref &
+7000 &
+7032 &
+7032\\ 
+
+
+crypto-xof/shake128/amd64/avx2 &
+6168 &
+6656 &
+6656\\ 
+
+
+crypto-xof/shake128/amd64/ref &
+8648 &
+8488 &
+8488\\ 
+
+
+crypto-xof/shake256/amd64/avx2 &
+6168 &
+6656 &
+6656\\ 
+
+
+crypto-xof/shake256/amd64/ref1 &
+4376 &
+4376 &
+4648\\ 
+
+
+crypto-xof/shake256/amd64/ref &
+8648 &
+8488 &
+8488\\ 
+
+
+crypto-xof/shake256/amd64/spec &
+9368 &
+8920 &
+8920\\
+
+  \bottomrule
+  \end{tabular}
+\end{table}
+

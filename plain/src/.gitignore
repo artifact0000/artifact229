@@ -1,0 +1,13 @@
+*.s
+*.o
+*.a
+_build/
+libjade.a
+libjade.h
+.deps
+.ec
+.log
+.ci
+.error
+check.tar.gz
+*.sct

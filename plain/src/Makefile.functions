@@ -1,0 +1,47 @@
+ifeq ($(OP),kem)
+ifeq ($(SRCS),kem.jazz)
+FN ?= $(addprefix $(NAMESPACE)_, keypair enc dec)
+endif
+endif
+
+ifeq ($(OP),hash)
+ifeq ($(SRCS),hash.jazz)
+FN ?= $(NAMESPACE)
+endif
+endif
+
+ifeq ($(OP),onetimeauth)
+ifeq ($(SRCS),onetimeauth.jazz)
+FN ?= $(NAMESPACE) $(NAMESPACE)_verify
+endif
+endif
+
+ifeq ($(OP),scalarmult)
+ifeq ($(SRCS),scalarmult.jazz)
+FN ?= $(NAMESPACE)
+endif
+endif
+
+ifeq ($(OP),secretbox)
+ifeq ($(SRCS),secretbox.jazz)
+FN ?= $(NAMESPACE) $(NAMESPACE)_open
+endif
+endif
+
+ifeq ($(OP),sign)
+ifeq ($(SRCS),sign.jazz)
+FN ?= $(NAMESPACE)_keypair $(NAMESPACE) $(NAMESPACE)_open
+endif
+endif
+
+ifeq ($(OP),stream)
+ifeq ($(SRCS),stream.jazz)
+FN ?= $(NAMESPACE) $(NAMESPACE)_xor
+endif
+endif
+
+ifeq ($(OP),xof)
+ifeq ($(SRCS),xof.jazz)
+FN ?= $(NAMESPACE)
+endif
+endif

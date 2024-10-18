@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+#
+# how to use compare-type0:
+# $ scripts/compare-type0 baseline.csv input.csv output.csv 
+#
+
+baseline="$1"
+input="$2"
+output="$3"
+
+paste -d' ' \
+  <(cat $baseline | sort -g | head -n6 | tail -n1) \
+  <(cat $input | sort -g | head -n6 | tail -n1) |
+LC_ALL=C awk '{printf "%ld,%ld,%.02f\n", $1, $2, (($2*100.0/$1)-100.0)}' > $output
+
+cat $output | \
+LC_ALL=C awk 'BEGIN { FS = ","; sum = 0; } ; { sum+=$3; } ; END { print sum / NR }' > ${output/.csv/.avg}

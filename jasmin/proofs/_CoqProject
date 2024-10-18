@@ -1,0 +1,108 @@
+-arg "-w -notation-overridden"
+-arg "-w -extraction-reserved-identifier"
+-arg "-w -extraction-opaque-accessed"
+-arg "-w -ambiguous-paths"
+-arg "-w -duplicate-clear"
+-arg "-w +deprecated-hint-without-locality"
+-arg "-w +deprecated-hint-rewrite-without-locality"
+-arg "-w +deprecated-instance-without-locality"
+-arg "-w -hiding-delimiting-key"
+-arg "-w +deprecated-since-mathcomp-1.17.0"
+
+-R 3rdparty Jasmin
+-R arch Jasmin
+-R compiler Jasmin
+-R lang Jasmin
+-R ssrmisc Jasmin
+
+ssrmisc/oseq.v
+ssrmisc/seq_extra.v
+3rdparty/ssrring.v
+3rdparty/xseq.v
+arch/arch_decl.v
+arch/arch_extra.v
+arch/arch_utils.v
+arch/asm_gen.v
+arch/label.v
+arch/sem_params_of_arch_extra.v
+compiler/allocation.v
+compiler/arch_params.v
+compiler/arm_decl.v
+compiler/arm_extra.v
+compiler/arm_instr_decl.v
+compiler/arm_lowering.v
+compiler/arm_params.v
+compiler/arm_params_common.v
+compiler/arm_params_core.v
+compiler/arm_stack_zeroization.v
+compiler/arm.v
+compiler/array_expansion.v
+compiler/array_copy.v
+compiler/array_init.v
+compiler/byteset.v
+compiler/compiler_util.v
+compiler/compiler.v
+compiler/constant_prop.v
+compiler/dead_calls.v
+compiler/dead_code.v
+compiler/inline.v
+compiler/jasmin_compiler.v
+compiler/lea.v
+compiler/linear_util.v
+compiler/linearization.v
+compiler/lowering.v
+compiler/lower_spill.v
+compiler/makeReferenceArguments.v
+compiler/merge_varmaps.v
+compiler/propagate_inline.v
+compiler/protect_calls.v
+compiler/remove_globals.v
+compiler/slh_lowering.v
+compiler/stack_alloc.v
+compiler/stack_zeroization.v
+compiler/tunneling.v
+compiler/unionfind.v
+compiler/unrolling.v
+compiler/x86_decl.v
+compiler/x86_extra.v
+compiler/x86_instr_decl.v
+compiler/x86_lowering.v
+compiler/x86_params.v
+compiler/x86_stack_zeroization.v
+compiler/x86.v
+lang/array.v
+lang/expr.v
+lang/extraction.v
+lang/fexpr.v
+lang/flag_combination.v
+lang/gen_map.v
+lang/global.v
+lang/ident.v
+lang/linear.v
+lang/low_memory.v
+lang/memory_example.v
+lang/memory_model.v
+lang/one_varmap.v
+lang/psem_defs.v
+lang/pseudo_operator.v
+lang/return_address_kind.v
+lang/sem_op_typed.v
+lang/sem_params.v
+lang/sem_type.v
+lang/shift_kind.v
+lang/sopn.v
+lang/slh_ops.v
+lang/stack_zero_strategy.v
+lang/strings.v
+lang/syscall.v
+lang/syscall_sem.v
+lang/tagged.v
+lang/type.v
+lang/utils.v
+lang/values.v
+lang/var.v
+lang/varmap.v
+lang/waes.v
+lang/warray_.v
+lang/word.v
+lang/wsize.v

@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+#set -x 
+
+description="$1"
+baseline="$2"
+compare="$3"
+output="$4"
+
+###
+
+scripts=$(cd $(dirname "$0") ; pwd -P)
+mkdir -p $output
+
+###
+
+find $baseline -name "*.csv" | \
+while read bfile;
+do
+  # check if bfile exists in $compare dir
+  cfile=${bfile/$baseline/$compare}
+  if [ ! -f $cfile ]; then
+    echo "CHECKME, $cfile" >&2
+    continue
+  fi
+
+  # initialize output file and create output directory
+  ofile=${output}/$(basename $bfile)
+
+  # get the type of the file, it can be 0 (compare-type0), 1 (compare-type1), or 2 (compare-type2)
+  type=$(head -n1 $bfile | sed -e 's/[^,]//g' | awk "{print (length-1)}");
+  if [[ $type -eq -1 ]]; then type=0; fi
+
+  ${scripts}/compare-type${type} $bfile $cfile $ofile
+done
+
+###
+
+echo -n "$description, "
+cat $output/*.avg | \
+LC_ALL=C awk 'BEGIN { sum = 0; } ; { sum += $1 } ; END { print sum / NR }'

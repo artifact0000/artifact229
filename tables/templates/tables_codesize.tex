@@ -1,0 +1,280 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% code size
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\tabcolsep}{4pt}
+\begin{table}
+    \caption{Object size in bytes.}
+    \label{tab:results:codesize}
+  \begin{tabular}{lrrr}
+  \toprule
+Impl. & plain  & +v1 & +v1+RSB \\
+
+crypto-hash/sha256/amd64/ref &
+SIZE(plain/src/crypto_hash/sha256/amd64/ref/hash.o) &
+SIZE(sslh/src/crypto_hash/sha256/amd64/ref/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha256/amd64/ref/hash.o)\\ 
+
+
+crypto-hash/sha3-224/amd64/avx2 &
+SIZE(plain/src/crypto_hash/sha3-224/amd64/avx2/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-224/amd64/avx2/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-224/amd64/avx2/hash.o)\\ 
+
+
+crypto-hash/sha3-224/amd64/ref &
+SIZE(plain/src/crypto_hash/sha3-224/amd64/ref/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-224/amd64/ref/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-224/amd64/ref/hash.o)\\ 
+
+
+crypto-hash/sha3-256/amd64/avx2 &
+SIZE(plain/src/crypto_hash/sha3-256/amd64/avx2/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-256/amd64/avx2/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-256/amd64/avx2/hash.o)\\ 
+
+
+crypto-hash/sha3-256/amd64/ref &
+SIZE(plain/src/crypto_hash/sha3-256/amd64/ref/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-256/amd64/ref/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-256/amd64/ref/hash.o)\\ 
+
+
+crypto-hash/sha3-384/amd64/avx2 &
+SIZE(plain/src/crypto_hash/sha3-384/amd64/avx2/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-384/amd64/avx2/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-384/amd64/avx2/hash.o)\\ 
+
+
+crypto-hash/sha3-384/amd64/ref &
+SIZE(plain/src/crypto_hash/sha3-384/amd64/ref/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-384/amd64/ref/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-384/amd64/ref/hash.o)\\ 
+
+
+crypto-hash/sha3-512/amd64/avx2 &
+SIZE(plain/src/crypto_hash/sha3-512/amd64/avx2/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-512/amd64/avx2/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-512/amd64/avx2/hash.o)\\ 
+
+
+crypto-hash/sha3-512/amd64/ref &
+SIZE(plain/src/crypto_hash/sha3-512/amd64/ref/hash.o) &
+SIZE(sslh/src/crypto_hash/sha3-512/amd64/ref/hash.o) &
+SIZE(sslh_rsb/src/crypto_hash/sha3-512/amd64/ref/hash.o)\\ 
+
+
+crypto-kem/kyber/kyber512/amd64/avx2 &
+SIZE(plain/src/crypto_kem/kyber/kyber512/amd64/avx2/kem.o) &
+SIZE(sslh/src/crypto_kem/kyber/kyber512/amd64/avx2/kem.o) &
+SIZE(sslh_rsb/src/crypto_kem/kyber/kyber512/amd64/avx2/kem.o)\\ 
+
+
+crypto-kem/kyber/kyber768/amd64/avx2 &
+SIZE(plain/src/crypto_kem/kyber/kyber768/amd64/avx2/kem.o) &
+SIZE(sslh/src/crypto_kem/kyber/kyber768/amd64/avx2/kem.o) &
+SIZE(sslh_rsb/src/crypto_kem/kyber/kyber768/amd64/avx2/kem.o)\\ 
+
+
+crypto-onetimeauth/poly1305/amd64/avx2 &
+SIZE(plain/src/crypto_onetimeauth/poly1305/amd64/avx2/onetimeauth.o) &
+SIZE(sslh/src/crypto_onetimeauth/poly1305/amd64/avx2/onetimeauth.o) &
+SIZE(sslh_rsb/src/crypto_onetimeauth/poly1305/amd64/avx2/onetimeauth.o)\\ 
+
+
+crypto-onetimeauth/poly1305/amd64/avx &
+SIZE(plain/src/crypto_onetimeauth/poly1305/amd64/avx/onetimeauth.o) &
+SIZE(sslh/src/crypto_onetimeauth/poly1305/amd64/avx/onetimeauth.o) &
+SIZE(sslh_rsb/src/crypto_onetimeauth/poly1305/amd64/avx/onetimeauth.o)\\ 
+
+
+crypto-onetimeauth/poly1305/amd64/ref &
+SIZE(plain/src/crypto_onetimeauth/poly1305/amd64/ref/onetimeauth.o) &
+SIZE(sslh/src/crypto_onetimeauth/poly1305/amd64/ref/onetimeauth.o) &
+SIZE(sslh_rsb/src/crypto_onetimeauth/poly1305/amd64/ref/onetimeauth.o)\\ 
+
+
+crypto-scalarmult/curve25519/amd64/mulx &
+SIZE(plain/src/crypto_scalarmult/curve25519/amd64/mulx/scalarmult.o) &
+SIZE(sslh/src/crypto_scalarmult/curve25519/amd64/mulx/scalarmult.o) &
+SIZE(sslh_rsb/src/crypto_scalarmult/curve25519/amd64/mulx/scalarmult.o)\\ 
+
+
+crypto-scalarmult/curve25519/amd64/ref4 &
+SIZE(plain/src/crypto_scalarmult/curve25519/amd64/ref4/scalarmult.o) &
+SIZE(sslh/src/crypto_scalarmult/curve25519/amd64/ref4/scalarmult.o) &
+SIZE(sslh_rsb/src/crypto_scalarmult/curve25519/amd64/ref4/scalarmult.o)\\ 
+
+
+crypto-scalarmult/curve25519/amd64/ref5 &
+SIZE(plain/src/crypto_scalarmult/curve25519/amd64/ref5/scalarmult.o) &
+SIZE(sslh/src/crypto_scalarmult/curve25519/amd64/ref5/scalarmult.o) &
+SIZE(sslh_rsb/src/crypto_scalarmult/curve25519/amd64/ref5/scalarmult.o)\\ 
+
+
+crypto-secretbox/xsalsa20poly1305/amd64/avx2 &
+SIZE(plain/src/crypto_secretbox/xsalsa20poly1305/amd64/avx2/secretbox.o) &
+SIZE(sslh/src/crypto_secretbox/xsalsa20poly1305/amd64/avx2/secretbox.o) &
+SIZE(sslh_rsb/src/crypto_secretbox/xsalsa20poly1305/amd64/avx2/secretbox.o)\\ 
+
+
+crypto-secretbox/xsalsa20poly1305/amd64/avx &
+SIZE(plain/src/crypto_secretbox/xsalsa20poly1305/amd64/avx/secretbox.o) &
+SIZE(sslh/src/crypto_secretbox/xsalsa20poly1305/amd64/avx/secretbox.o) &
+SIZE(sslh_rsb/src/crypto_secretbox/xsalsa20poly1305/amd64/avx/secretbox.o)\\ 
+
+
+crypto-secretbox/xsalsa20poly1305/amd64/ref &
+SIZE(plain/src/crypto_secretbox/xsalsa20poly1305/amd64/ref/secretbox.o) &
+SIZE(sslh/src/crypto_secretbox/xsalsa20poly1305/amd64/ref/secretbox.o) &
+SIZE(sslh_rsb/src/crypto_secretbox/xsalsa20poly1305/amd64/ref/secretbox.o)\\ 
+
+
+crypto-stream/chacha/chacha12/amd64/avx2 &
+SIZE(plain/src/crypto_stream/chacha/chacha12/amd64/avx2/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha12/amd64/avx2/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha12/amd64/avx2/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha12/amd64/avx &
+SIZE(plain/src/crypto_stream/chacha/chacha12/amd64/avx/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha12/amd64/avx/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha12/amd64/avx/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha12/amd64/ref &
+SIZE(plain/src/crypto_stream/chacha/chacha12/amd64/ref/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha12/amd64/ref/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha12/amd64/ref/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha20/amd64/avx2 &
+SIZE(plain/src/crypto_stream/chacha/chacha20/amd64/avx2/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha20/amd64/avx2/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha20/amd64/avx2/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha20/amd64/avx &
+SIZE(plain/src/crypto_stream/chacha/chacha20/amd64/avx/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha20/amd64/avx/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha20/amd64/avx/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha20/amd64/ref &
+SIZE(plain/src/crypto_stream/chacha/chacha20/amd64/ref/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha20/amd64/ref/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha20/amd64/ref/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha20-ietf/amd64/avx2 &
+SIZE(plain/src/crypto_stream/chacha/chacha20-ietf/amd64/avx2/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha20-ietf/amd64/avx2/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha20-ietf/amd64/avx2/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha20-ietf/amd64/avx &
+SIZE(plain/src/crypto_stream/chacha/chacha20-ietf/amd64/avx/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha20-ietf/amd64/avx/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha20-ietf/amd64/avx/stream.o)\\ 
+
+
+crypto-stream/chacha/chacha20-ietf/amd64/ref &
+SIZE(plain/src/crypto_stream/chacha/chacha20-ietf/amd64/ref/stream.o) &
+SIZE(sslh/src/crypto_stream/chacha/chacha20-ietf/amd64/ref/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/chacha/chacha20-ietf/amd64/ref/stream.o)\\ 
+
+
+crypto-stream/salsa20/salsa2012/amd64/avx2 &
+SIZE(plain/src/crypto_stream/salsa20/salsa2012/amd64/avx2/stream.o) &
+SIZE(sslh/src/crypto_stream/salsa20/salsa2012/amd64/avx2/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/salsa20/salsa2012/amd64/avx2/stream.o)\\ 
+
+
+crypto-stream/salsa20/salsa2012/amd64/avx &
+SIZE(plain/src/crypto_stream/salsa20/salsa2012/amd64/avx/stream.o) &
+SIZE(sslh/src/crypto_stream/salsa20/salsa2012/amd64/avx/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/salsa20/salsa2012/amd64/avx/stream.o)\\ 
+
+
+crypto-stream/salsa20/salsa2012/amd64/ref &
+SIZE(plain/src/crypto_stream/salsa20/salsa2012/amd64/ref/stream.o) &
+SIZE(sslh/src/crypto_stream/salsa20/salsa2012/amd64/ref/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/salsa20/salsa2012/amd64/ref/stream.o)\\ 
+
+
+crypto-stream/salsa20/salsa20/amd64/avx2 &
+SIZE(plain/src/crypto_stream/salsa20/salsa20/amd64/avx2/stream.o) &
+SIZE(sslh/src/crypto_stream/salsa20/salsa20/amd64/avx2/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/salsa20/salsa20/amd64/avx2/stream.o)\\ 
+
+
+crypto-stream/salsa20/salsa20/amd64/avx &
+SIZE(plain/src/crypto_stream/salsa20/salsa20/amd64/avx/stream.o) &
+SIZE(sslh/src/crypto_stream/salsa20/salsa20/amd64/avx/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/salsa20/salsa20/amd64/avx/stream.o)\\ 
+
+
+crypto-stream/salsa20/salsa20/amd64/ref &
+SIZE(plain/src/crypto_stream/salsa20/salsa20/amd64/ref/stream.o) &
+SIZE(sslh/src/crypto_stream/salsa20/salsa20/amd64/ref/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/salsa20/salsa20/amd64/ref/stream.o)\\ 
+
+
+crypto-stream/xsalsa20/amd64/avx2 &
+SIZE(plain/src/crypto_stream/xsalsa20/amd64/avx2/stream.o) &
+SIZE(sslh/src/crypto_stream/xsalsa20/amd64/avx2/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/xsalsa20/amd64/avx2/stream.o)\\ 
+
+
+crypto-stream/xsalsa20/amd64/avx &
+SIZE(plain/src/crypto_stream/xsalsa20/amd64/avx/stream.o) &
+SIZE(sslh/src/crypto_stream/xsalsa20/amd64/avx/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/xsalsa20/amd64/avx/stream.o)\\ 
+
+
+crypto-stream/xsalsa20/amd64/ref &
+SIZE(plain/src/crypto_stream/xsalsa20/amd64/ref/stream.o) &
+SIZE(sslh/src/crypto_stream/xsalsa20/amd64/ref/stream.o) &
+SIZE(sslh_rsb/src/crypto_stream/xsalsa20/amd64/ref/stream.o)\\ 
+
+
+crypto-xof/shake128/amd64/avx2 &
+SIZE(plain/src/crypto_xof/shake128/amd64/avx2/xof.o) &
+SIZE(sslh/src/crypto_xof/shake128/amd64/avx2/xof.o) &
+SIZE(sslh_rsb/src/crypto_xof/shake128/amd64/avx2/xof.o)\\ 
+
+
+crypto-xof/shake128/amd64/ref &
+SIZE(plain/src/crypto_xof/shake128/amd64/ref/xof.o) &
+SIZE(sslh/src/crypto_xof/shake128/amd64/ref/xof.o) &
+SIZE(sslh_rsb/src/crypto_xof/shake128/amd64/ref/xof.o)\\ 
+
+
+crypto-xof/shake256/amd64/avx2 &
+SIZE(plain/src/crypto_xof/shake256/amd64/avx2/xof.o) &
+SIZE(sslh/src/crypto_xof/shake256/amd64/avx2/xof.o) &
+SIZE(sslh_rsb/src/crypto_xof/shake256/amd64/avx2/xof.o)\\ 
+
+
+crypto-xof/shake256/amd64/ref1 &
+SIZE(plain/src/crypto_xof/shake256/amd64/ref1/xof.o) &
+SIZE(sslh/src/crypto_xof/shake256/amd64/ref1/xof.o) &
+SIZE(sslh_rsb/src/crypto_xof/shake256/amd64/ref1/xof.o)\\ 
+
+
+crypto-xof/shake256/amd64/ref &
+SIZE(plain/src/crypto_xof/shake256/amd64/ref/xof.o) &
+SIZE(sslh/src/crypto_xof/shake256/amd64/ref/xof.o) &
+SIZE(sslh_rsb/src/crypto_xof/shake256/amd64/ref/xof.o)\\ 
+
+
+crypto-xof/shake256/amd64/spec &
+SIZE(plain/src/crypto_xof/shake256/amd64/spec/xof.o) &
+SIZE(sslh/src/crypto_xof/shake256/amd64/spec/xof.o) &
+SIZE(sslh_rsb/src/crypto_xof/shake256/amd64/spec/xof.o)\\
+
+  \bottomrule
+  \end{tabular}
+\end{table}
+

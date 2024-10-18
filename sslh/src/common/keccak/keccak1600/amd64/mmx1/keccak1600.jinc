@@ -1,0 +1,244 @@
+param int KECCAK_ROUNDS=24;
+
+require "keccakf1600.jinc"
+
+inline fn __keccak_init_mmx1() -> stack u64[25]
+{
+  stack u64[25] state;
+  reg u64 t;
+  inline int i;
+
+  _,_,_,_,_, t = #set0();
+
+  for i = 0 to 25
+  { state[i] = t;
+    i += 1;
+  }
+
+  return state;
+}
+
+
+inline fn __add_full_block_mmx1(
+  stack u64[25] state,
+  reg u64 in inlen,
+  reg u64 rate
+) -> stack u64[25], reg u64, reg u64
+{
+  reg u64 i t rate64;
+
+  rate64 = rate;
+  rate64 >>= 3;
+  i = 0;
+  while( i < rate64)
+  {
+    t = [in + 8*i];
+    state[(int)i] ^= t;
+    i+=1;
+  }
+
+  in += rate;
+  inlen -= rate;
+
+  return state, in, inlen;
+}
+
+
+// obs: @pre: inlen < rate_in_bytes
+inline fn __add_final_block_mmx1(
+  stack u64[25] state,
+  reg   u64 in inlen,
+  reg   u8  trail_byte,
+  reg   u64 rate
+) -> stack u64[25]
+{
+  reg u64 i t inlen8;
+  reg u8 c;
+  reg bool b;
+
+  inlen8 = inlen;
+  inlen8 >>= 3;
+  i = 0;
+  while { b = i < inlen8;} (b)
+  {
+    t = [in + 8*i];
+    state[(int)i] ^= t;
+    i += 1;
+  }
+
+  i <<= 3;
+  while { b = i < inlen; } (b)
+  {
+    c = (u8)[in + i];
+    state[u8 (int)i] ^= c;
+    i += 1;
+  }
+
+  state[u8 (int)i] ^= trail_byte;
+
+  i = rate;
+  i -= 1;
+  state[u8 (int)i] ^= 0x80;
+
+  return state;
+}
+
+
+inline fn __absorb_mmx1(
+  stack u64[25] state,
+  reg   u64 in inlen,
+  stack u8  s_trail_byte,
+  reg   u64 rate // rate already in bytes -- it is returned bc of spills
+) -> stack u64[25], reg u64
+{
+  #mmx reg u64 x_in x_inlen x_rate;
+  reg u8 trail_byte;
+  reg u64 t;
+  reg bool b;
+
+  // intermediate blocks
+  while {b = inlen >= rate;} ( b )
+  {
+    state, in, inlen = __add_full_block_mmx1(state, in, inlen, rate);
+
+    x_in = in;
+    x_inlen = inlen;
+    x_rate = rate;
+
+    state = _keccakf1600_mmx1(state);
+
+    in = x_in;
+    inlen = x_inlen;
+    rate = x_rate;
+  }
+
+  // final block
+  trail_byte = s_trail_byte;
+
+  state = __add_final_block_mmx1(state, in, inlen, trail_byte, rate);
+
+  return state, rate;
+}
+
+
+inline fn __xtr_full_block_mmx1(
+  stack u64[25] state,
+  reg u64 out outlen,
+  reg u64 rate
+) -> reg u64, reg u64
+{
+  reg u64 i t rate64;
+  reg bool b;
+
+  rate64 = rate;
+  rate64 >>= 3;
+  i = 0;
+  while { b = i < rate64; } (b)
+  {
+    t = state[(int)i];
+    [out + 8*i] = t;
+    i += 1;
+  }
+
+  out += rate;
+  outlen -= rate;
+
+  return out, outlen;
+}
+
+
+inline fn __xtr_bytes_mmx1(
+  stack u64[25] state,
+  reg u64 out outlen
+) -> reg u64
+{
+  reg u64 i t outlen8;
+  reg u8 c;
+
+  outlen8 = outlen;
+  outlen8 >>= 3;
+  i = 0;
+  while ( i < outlen8 )
+  {
+    t = state[(int)i];
+    [out + 8*i] = t;
+    i += 1;
+  }
+  i <<= 3;
+
+  while ( i < outlen )
+  {
+    c = state[u8 (int)i];
+    (u8)[out + i] = c;
+    i += 1;
+  }
+
+  out += outlen;
+  return out;
+}
+
+
+inline fn __squeeze_mmx1(
+  stack u64[25] state,
+  #mmx reg u64 x_out,
+  reg   u64 outlen,
+  reg   u64 rate
+)
+{
+  reg u64 out;
+  #mmx reg u64 x_outlen x_rate;
+  reg bool b;
+
+  // intermediate blocks
+  while {b = outlen > rate;} (b)
+  {
+    x_outlen = outlen;
+    x_rate = rate;
+
+    state = _keccakf1600_mmx1(state);
+
+    out = x_out;
+    outlen = x_outlen;
+    rate = x_rate;
+
+    out, outlen = __xtr_full_block_mmx1(state, out, outlen, rate);
+    x_out = out;
+  }
+
+  x_outlen = outlen;
+
+  state = _keccakf1600_mmx1(state);
+
+  out = x_out;
+  outlen = x_outlen;
+
+  out = __xtr_bytes_mmx1(state, out, outlen);
+}
+
+
+inline fn __keccak1600_mmx1(reg u64 out outlen in inlen, reg u8 trail_byte, reg u64 rate)
+{
+  stack u64[25] state;
+  #mmx reg u64 x_out x_outlen;
+  stack u8 s_trail_byte;
+
+  x_out = out;
+  x_outlen = outlen;
+  s_trail_byte = trail_byte;
+
+  state = __keccak_init_mmx1();
+
+  // absorb
+  state, rate = __absorb_mmx1(state, in, inlen, s_trail_byte, rate);
+
+  // squeeze
+  outlen = x_outlen;
+  __squeeze_mmx1(state, x_out, outlen, rate);
+}
+
+
+#[returnaddress="stack"]
+fn _keccak1600_mmx1(reg u64 out outlen in inlen, reg u8 trail_byte, reg u64 rate)
+{
+  __keccak1600_mmx1(out, outlen, in, inlen, trail_byte, rate);
+}

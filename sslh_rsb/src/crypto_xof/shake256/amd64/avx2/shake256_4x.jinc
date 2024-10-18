@@ -1,0 +1,45 @@
+from Jade require "common/keccak/keccak1600/amd64/avx2/keccakf1600_4x.jinc"
+
+inline
+fn __shake256_squeezeblock4x(
+  #[public, secret] reg ptr u256[25] state,
+  #[public, secret] reg ptr u8[SHAKE256_RATE] h0 h1 h2 h3,
+  #msf reg u64 ms
+) ->
+  #[public, secret] reg ptr u256[25],
+  #[public, secret] reg ptr u8[SHAKE256_RATE],
+  #[public, secret] reg ptr u8[SHAKE256_RATE],
+  #[public, secret] reg ptr u8[SHAKE256_RATE],
+  #[public, secret] reg ptr u8[SHAKE256_RATE],
+  #msf reg u64
+{
+  reg u256 t256;
+  reg u128 t128;
+  inline int i;
+  #mmx reg ptr u8[SHAKE256_RATE] s_h0 s_h1 s_h2 s_h3;
+
+  s_h0 = h0;
+  s_h1 = h1;
+  s_h2 = h2;
+  s_h3 = h3;
+
+  #update_after_call
+  state, ms = _KeccakF1600_StatePermute4x(state, ms);
+
+  h0 = s_h0;
+  h1 = s_h1;
+  h2 = s_h2;
+  h3 = s_h3;
+
+	for i = 0 to (SHAKE256_RATE / 8) {
+    t256 = state[i];
+    t128 = (128u)t256;
+		h0[u64 i] = #VMOVLPD(t128);
+		h1[u64 i] = #VMOVHPD(t128);
+    t128 = #VEXTRACTI128(t256, 1);
+		h2[u64 i] = #VMOVLPD(t128);
+		h3[u64 i] = #VMOVHPD(t128);
+	}
+
+  return state, h0, h1, h2, h3, ms;
+}

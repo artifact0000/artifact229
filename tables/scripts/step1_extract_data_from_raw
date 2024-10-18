@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+PDIR=$(cd "$(dirname "$0")/../../" ; pwd -P)
+TDIR=$PDIR/tables
+
+## list the CPUs (note: CPU names will be used in \label commands for the produced Latex tables, hence, avoid special characters.
+for cpu in $(ls $TDIR/data/raw | sort -g -r)
+do
+  ## create directories for comparing plain (no Spectre protection) vs +SSBD vs +SSBD+v1 vs +SSBD+v1+RSB vs % increase (plain vs +SSBD+v1+RSB)
+  mkdir -p $TDIR/data/extracted/tables_paper/${cpu}__plain_vs_ssbd/
+  mkdir -p $TDIR/data/extracted/tables_paper/${cpu}__ssbd_vs_ssbdv1/
+  mkdir -p $TDIR/data/extracted/tables_paper/${cpu}__ssbdv1_vs_ssbdv1rsb/
+  mkdir -p $TDIR/data/extracted/tables_paper/${cpu}__plain_vs_ssbdv1rsb/
+
+  $PDIR/scripts/compare "plain vs +SSBD, $cpu"           $TDIR/data/raw/$cpu/plain/ssbd_enable/        $TDIR/data/raw/$cpu/plain/ssbd_force_disable/    $TDIR/data/extracted/tables_paper/${cpu}__plain_vs_ssbd/
+  $PDIR/scripts/compare "+SSBD vs +SSBD+v1, $cpu"        $TDIR/data/raw/$cpu/plain/ssbd_force_disable/ $TDIR/data/raw/$cpu/sslh/ssbd_force_disable/     $TDIR/data/extracted/tables_paper/${cpu}__ssbd_vs_ssbdv1/
+  $PDIR/scripts/compare "+SSBD+v1 vs +SSBD+v1+RSB, $cpu" $TDIR/data/raw/$cpu/sslh/ssbd_force_disable/  $TDIR/data/raw/$cpu/sslh_rsb/ssbd_force_disable/ $TDIR/data/extracted/tables_paper/${cpu}__ssbdv1_vs_ssbdv1rsb/
+  $PDIR/scripts/compare "plain vs +SSBD+v1+RSB, $cpu"    $TDIR/data/raw/$cpu/plain/ssbd_enable/        $TDIR/data/raw/$cpu/sslh_rsb/ssbd_force_disable/ $TDIR/data/extracted/tables_paper/${cpu}__plain_vs_ssbdv1rsb/
+
+  ## create directory for comparing (-SSBD+v1+RSB vs +SSBD+v1+RSB)
+  mkdir -p $TDIR/data/extracted/tables_ssbd_rsb/${cpu}__sslh_rsb_enable_vs_sslh_rsb_force_disable/
+
+  $PDIR/scripts/compare "-SSBD+v1+RSB vs +SSBD+v1+RSB, $cpu" $TDIR/data/raw/$cpu/sslh_rsb/ssbd_enable/ $TDIR/data/raw/$cpu/sslh_rsb/ssbd_force_disable/ $TDIR/data/extracted/tables_ssbd_rsb/${cpu}__sslh_rsb_enable_vs_sslh_rsb_force_disable/
+
+done

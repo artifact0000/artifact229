@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -x 
+
+PDIR=$(cd "$(dirname "$0")/../../" ; pwd -P)
+TDIR=$PDIR/tables
+
+if [ $# -eq 0 ]; then
+  template=$TDIR/templates/tables_codesize.tex
+  output=$TDIR/tables_codesize.tex
+else
+  template=$1
+  output=$2
+fi
+
+# make sure the object files exist
+make -C $PDIR/plain/src/    -j$(nproc) CI=1 libjade.a
+make -C $PDIR/sslh/src/     -j$(nproc) CI=1 libjade.a
+make -C $PDIR/sslh_rsb/src/ -j$(nproc) CI=1 libjade.a
+
+# copy template to output and start replacing data
+cp $template $output
+
+cat $output | grep -Eo "SIZE\(.*\)" | sort -u |
+while read get
+do
+  var=$get
+  var=${var/SIZE(/}
+  var=${var/)/}
+
+  file=$PDIR/$var
+
+  size=$(stat --printf="%s" $file)
+
+  sed -i "s|$get|$size|g" $output
+
+done
+

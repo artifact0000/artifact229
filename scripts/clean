@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+TDIR=$(cd "$(dirname "$0")/../../" ; pwd -P)
+PDIR=$(cd "$(dirname "$0")/../" ; pwd -P)
+
+# clean the jasmin compiler
+echo "Do you want to run 'nix-shell --command \"make clean\"'? (Y/N)"
+read answer
+if [[ $answer == "Y" || $answer == "y" ]]; then
+ (cd $TDIR/jasmin && nix-shell --command "make clean")
+else
+  echo "I will not run make clean on the Jasmin compiler. This may make the artifact very big. Do you want to continue? (Y/N)"
+  read answer
+  if [[ $answer == "N" || $answer == "n" ]]; then
+    echo "Exiting then."
+    exit
+  fi
+fi
+echo "Continuing..."
+
+# clean the libjade packages
+make -C $PDIR/plain/src/   CI=1 distclean
+make -C $PDIR/plain/test/  CI=1 distclean
+make -C $PDIR/plain/bench/ CI=1 clean
+make -C $PDIR/plain/proof/ CI=1 clean
+make -C $PDIR/plain/ext/randombytes clean
+
+make -C $PDIR/sslh/src/   CI=1 distclean
+make -C $PDIR/sslh/test/  CI=1 distclean
+make -C $PDIR/sslh/bench/ CI=1 clean
+make -C $PDIR/sslh/proof/ CI=1 clean
+make -C $PDIR/sslh/ext/randombytes clean
+
+make -C $PDIR/sslh_rsb/src/   CI=1 distclean
+make -C $PDIR/sslh_rsb/test/  CI=1 distclean
+make -C $PDIR/sslh_rsb/bench/ CI=1 clean
+make -C $PDIR/sslh_rsb/proof/ CI=1 clean
+make -C $PDIR/sslh_rsb/ext/randombytes clean
+
+# clean the ssbd-tools folder
+make -C $PDIR/ssbd-tools/ clean
+
+# remove any existing bench-prepared folders
+rm -fr $PDIR/bench-prepared*
+
+# remove automatically extracted data from $PDIR/tables/data/raw
+rm -fr $PDIR/tables/data/extracted/
+
+# run make clean on tables
+make -C $PDIR/tables/ clean
+

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -x
+
+PDIR=$(cd "$(dirname "$0")/" ; pwd -P)
+
+# compile ssdb-tools
+make -C $PDIR/ssbd-tools/
+
+# compile bench binaries
+for dir in plain sslh sslh_rsb
+do
+  make -C $PDIR/$dir/bench DEFINE="-DRUNS=11 -DTIMINGS=10000 -DMININBYTES=128 -DMAXINBYTES=16384 -DMINOUTBYTES=128 -DMAXOUTBYTES=1024 -DINC_INBYTES=2 -DINC_OUTBYTES=2" default
+done
+
+# save cpuinfo in results/
+mkdir -p $PDIR/results/
+cat /proc/cpuinfo > $PDIR/results/cpuinfo
+
+# run bench with ssbd-exec enable; copy results to results/{plain,sslh,sslh_rsb}/ssbd_enable/; clean up executables in (..)/ssbd_enable/; clean up csv in bin/
+for dir in plain sslh sslh_rsb
+do
+  find $PDIR/$dir/bench -type f -name bench |
+  while read exec
+  do
+    (cd $(dirname $exec) && $PDIR/ssbd-tools/ssbd-exec -p enable -- ./bench)
+  done
+ 
+  mkdir -p $PDIR/results/$dir/ssbd_enable
+  find $PDIR/$dir/bench/bin -type f -name "*.csv" -exec cp {} $PDIR/results/$dir/ssbd_enable \;
+  find $PDIR/$dir/bench/bin -type f -name "*.csv" -exec rm {} \;
+done
+
+# run bench with ssbd-exec disable; copy results to results/{plain,sslh,sslh_rsb}/ssbd_force_disable/; clean up executables in (..)/ssbd_force_disable/; clean up csv in bin/
+for dir in plain sslh sslh_rsb
+do
+  find $PDIR/$dir -type f -name bench |
+  while read exec
+  do
+    (cd $(dirname $exec) && $PDIR/ssbd-tools/ssbd-exec -p force-disable -- ./bench)
+  done
+
+  mkdir -p $PDIR/results/$dir/ssbd_force_disable
+  find $PDIR/$dir/bench/bin -type f -name "*.csv" -exec cp {} $PDIR/results/$dir/ssbd_force_disable \;
+  find $PDIR/$dir/bench/bin -type f -name "*.csv" -exec rm {} \;
+
+done
+
+# tar results
+(cd $PDIR && tar cjf results.tar.bz2 results/)
+

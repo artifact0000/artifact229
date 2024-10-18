@@ -1,0 +1,939 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fastest implementations - as in the paper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\tabcolsep}{3pt}
+\begin{table}[H]
+    \caption{Performance: ${cpu_text} - fastest implementations.}
+    \label{tab:results:all:${cpu}:avx2}
+  \begin{tabular}{lllrrrrr}
+  \toprule
+    Primitive
+ & Impl. & Op.          & plain & +SSBD & +SSBD+v1 & +SSBD+v1+RSB & increase \% \\
+
+    \multirow{6}{*}{ChaCha20}
+ &  \multirow{6}{*}{avx2}
+         & 128\,B       & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:o) \\
+
+ &       & 128\,B xor   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:o) \\
+
+ &       & 1\,KiB       & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:o) \\
+
+ &       & 1\,KiB xor   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:o) \\
+
+ &       & 16\,KiB      & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:o) \\
+
+ &       & 16\,KiB xor  & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:o) \\
+
+     \midrule
+    \multirow{6}{*}{Poly1305}
+ &  \multirow{6}{*}{avx2}
+
+        & 128\,B        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:o) \\
+
+ &      & 128\,B verif  & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:o) \\
+
+ &      & 1\,KiB verif  & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:o) \\
+
+ &      & 16\,KiB verif & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:o) \\
+
+      \midrule
+    \multirow{6}{*}{XSalsa20Poly1305}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:o) \\
+
+ &      & 128\,B open   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:o) \\
+
+ &      & 1\,KiB open   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:o) \\
+
+ &      & 16\,KiB open  & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:o) \\
+
+      \midrule
+    \multirow{4}{*}{SHAKE256}
+ &  \multirow{4}{*}{avx2}
+        &  128\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:128:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:o) \\
+
+ &      &  256\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:256:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:o) \\
+
+
+ &      &  512\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:512:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:o) \\
+
+
+ &      &  1\,KiB \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:1024:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:o) \\
+
+      \midrule
+    \multirow{1}{*}{X25519}
+ & mulx & smult         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_scalarmult_curve25519_amd64_mulx.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:o) \\
+
+      \midrule
+    \multirow{3}{*}{Kyber512}
+ &  \multirow{3}{*}{avx2}
+        & keypair       & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:o) \\
+
+ &      & enc           & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:o) \\
+
+ &      & dec           & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:o) \\
+
+      \midrule
+    \multirow{3}{*}{Kyber768}
+ &  \multirow{3}{*}{avx2}
+        & keypair       & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:o) \\
+
+ &      & enc           & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:o) \\
+
+ &      & dec           & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:o) \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  fastest implementations - step by step overhead
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\tabcolsep}{3pt}
+\begin{table}[H]
+    \caption{Performance: ${cpu_text} - fastest implementations - step by step overhead.}
+    \label{tab:results:all:step:${cpu}:avx2}
+  \begin{tabular}{lllrrrrrrrr}
+  \toprule
+    Primitive
+ & Impl. & Op.          & plain & +SSBD & \% & +SSBD+v1 & \% & +SSBD+v1+RSB & \% & increase \% \\
+
+    \multirow{6}{*}{ChaCha20}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:128:o) \\
+
+ &      & 128\,B xor    & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:1024:o) \\
+
+ &      & 1\,KiB xor    & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2.csv:16384:o) \\
+
+ &      & 16\,KiB xor   & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_avx2_xor.csv:16384:o) \\
+
+     \midrule
+    \multirow{6}{*}{Poly1305}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:128:o) \\
+
+ &      & 128\,B verif  & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:1024:o) \\
+
+ &      & 1\,KiB verif  & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2.csv:16384:o) \\
+
+ &      & 16\,KiB verif & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_avx2_verify.csv:16384:o) \\
+
+      \midrule
+    \multirow{8}{*}{XSalsa20Poly1305}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:128:o) \\
+
+ &      & 128\,B open   & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:1024:o) \\
+
+ &      & 1\,KiB open   & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2.csv:16384:o) \\
+
+ &      & 16\,KiB open  & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_avx2_open.csv:16384:o) \\
+
+      \midrule
+    \multirow{4}{*}{SHAKE256}
+ &  \multirow{4}{*}{avx2}
+        &  128\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:128:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:128:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:128:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:128:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:128:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:128:128:o) \\
+
+ &      &  256\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:256:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:256:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:256:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:256:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:256:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:256:128:o) \\
+
+
+ &      &  512\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:512:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:512:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:512:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:512:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:512:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:512:128:o) \\
+
+
+ &      &  1\,KiB \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:1024:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:1024:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_avx2.csv:1024:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:1024:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_avx2.csv:1024:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_avx2.csv:1024:128:o) \\
+
+      \midrule
+    \multirow{1}{*}{X25519}
+ & mulx & smult         & GET(${cpu}__plain_vs_ssbd/jade_scalarmult_curve25519_amd64_mulx.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_scalarmult_curve25519_amd64_mulx.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_scalarmult_curve25519_amd64_mulx.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_scalarmult_curve25519_amd64_mulx.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_scalarmult_curve25519_amd64_mulx.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_mulx.csv:o) \\
+
+      \midrule
+    \multirow{3}{*}{Kyber512}
+ &  \multirow{3}{*}{avx2}
+        & keypair       & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_keypair.csv:o) \\
+
+ &      & enc           & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_enc.csv:o) \\
+
+ &      & dec           & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber512_amd64_avx2_dec.csv:o) \\
+
+      \midrule
+    \multirow{3}{*}{Kyber768}
+ &  \multirow{3}{*}{avx2}
+        & keypair       & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:o)
+
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_keypair.csv:o) \\
+
+ &      & enc           & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_enc.csv:o) \\
+
+ &      & dec           & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_kem_kyber_kyber768_amd64_avx2_dec.csv:o) \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% reference implementations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\tabcolsep}{4pt}
+\begin{table}[H]
+    \caption{Performance: ${cpu_text} - ref implementations.}
+    \label{tab:results:all:${cpu}:ref}
+  \begin{tabular}{lllrrrrr}
+  \toprule
+    Primitive
+ & Impl. & Op.          & plain & +SSBD & +SSBD+v1 & +SSBD+v1+RSB & increase \% \\
+
+    \multirow{6}{*}{ChaCha20}
+ &  \multirow{6}{*}{ref}
+       & 128\,B         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:o) \\
+
+ &     & 128\,B xor     & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:o) \\
+
+ &     & 1\,KiB         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:o) \\
+
+ &     & 1\,KiB xor     & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:o) \\
+
+ &     & 16\,KiB        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:o) \\
+
+ &     & 16\,KiB xor    & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:o) \\
+
+     \midrule
+    \multirow{6}{*}{Poly1305}
+ &  \multirow{6}{*}{ref}
+       & 128\,B         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:o) \\
+
+ &     & 128\,B verif   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:o) \\
+
+ &     & 1\,KiB         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:o) \\
+
+ &     & 1\,KiB verif   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:o) \\
+
+ &     & 16\,KiB        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:o) \\
+
+ &     & 16\,KiB verif  & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:o) \\
+
+      \midrule
+    \multirow{6}{*}{XSalsa20Poly1305}
+ &  \multirow{6}{*}{ref}
+       & 128\,B         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:o) \\
+
+ &     & 128\,B open    & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:o) \\
+
+ &     & 1\,KiB         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:o) \\
+
+ &     & 1\,KiB open    & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:o) \\
+
+ &     & 16\,KiB        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:o) \\
+
+ &     & 16\,KiB open   & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:o) \\
+
+      \midrule
+    \multirow{4}{*}{SHAKE256}
+ &  \multirow{4}{*}{ref}
+        &  128\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:128:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:o) \\
+
+ &      &  256\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:256:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:o) \\
+
+
+ &      &  512\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:512:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:o) \\
+
+
+ &      &  1\,KiB \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:1024:128:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:o) \\
+
+      \midrule
+    \multirow{1}{*}{X25519}
+ & ref4 & smult         & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:b)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_scalarmult_curve25519_amd64_ref4.csv:b)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:b)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:i)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:o) \\
+
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  reference implementations - step by step overhead
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\tabcolsep}{3pt}
+\begin{table}[H]
+    \caption{Performance: ${cpu_text} - ref implementations - step by step overhead.}
+    \label{tab:results:all:step:${cpu}:ref}
+  \begin{tabular}{lllrrrrrrrr}
+  \toprule
+    Primitive
+ & Impl. & Op.          & plain & +SSBD & \% & +SSBD+v1 & \% & +SSBD+v1+RSB & \% & increase \% \\
+
+    \multirow{6}{*}{ChaCha20}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:128:o) \\
+
+ &      & 128\,B xor    & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:1024:o) \\
+
+ &      & 1\,KiB xor    & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref.csv:16384:o) \\
+
+ &      & 16\,KiB xor   & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_stream_chacha_chacha20_ietf_amd64_ref_xor.csv:16384:o) \\
+
+     \midrule
+    \multirow{6}{*}{Poly1305}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:128:o) \\
+
+ &      & 128\,B verif  & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:1024:o) \\
+
+ &      & 1\,KiB verif  & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref.csv:16384:o) \\
+
+ &      & 16\,KiB verif & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_onetimeauth_poly1305_amd64_ref_verify.csv:16384:o) \\
+
+      \midrule
+    \multirow{8}{*}{XSalsa20Poly1305}
+ &  \multirow{6}{*}{avx2}
+        & 128\,B        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:128:o) \\
+
+ &      & 128\,B open   & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:128:o) \\
+
+ &      & 1\,KiB        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:1024:o) \\
+
+ &      & 1\,KiB open   & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:1024:o) \\
+
+ &      & 16\,KiB       & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref.csv:16384:o) \\
+
+ &      & 16\,KiB open  & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_secretbox_xsalsa20poly1305_amd64_ref_open.csv:16384:o) \\
+
+      \midrule
+    \multirow{4}{*}{SHAKE256}
+ &  \multirow{4}{*}{avx2}
+        &  128\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:128:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:128:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:128:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:128:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:128:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:128:128:o) \\
+
+ &      &  256\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:256:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:256:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:256:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:256:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:256:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:256:128:o) \\
+
+
+ &      &  512\,B \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:512:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:512:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:512:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:512:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:512:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:512:128:o) \\
+
+
+ &      &  1\,KiB \textleftarrow\, 128\,B
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:1024:128:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:1024:128:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_xof_shake256_amd64_ref1.csv:1024:128:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:1024:128:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_xof_shake256_amd64_ref1.csv:1024:128:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_xof_shake256_amd64_ref1.csv:1024:128:o) \\
+
+      \midrule
+    \multirow{1}{*}{X25519}
+ & mulx & smult         & GET(${cpu}__plain_vs_ssbd/jade_scalarmult_curve25519_amd64_ref4.csv:b)
+                        & GET(${cpu}__plain_vs_ssbd/jade_scalarmult_curve25519_amd64_ref4.csv:i)
+                        & GET(${cpu}__plain_vs_ssbd/jade_scalarmult_curve25519_amd64_ref4.csv:o)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_scalarmult_curve25519_amd64_ref4.csv:i)
+                        & GET(${cpu}__ssbd_vs_ssbdv1/jade_scalarmult_curve25519_amd64_ref4.csv:o)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:i)
+                        & GET(${cpu}__ssbdv1_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:o)
+                        & GET(${cpu}__plain_vs_ssbdv1rsb/jade_scalarmult_curve25519_amd64_ref4.csv:o) \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
+

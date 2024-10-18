@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+set -x
+
+###############################################################################
+# PDIR : project directory 
+PDIR=$(cd "$(dirname "$0")/../" ; pwd -P)
+
+# BPACKAGE : prepared package (directory) with the contents to be benchmarked (pre-compiled assembly)
+BPACKAGE=$PDIR/"bench-prepared" #-"$(date "+%Y%m%d%H%M")
+
+###############################################################################
+# clean and compile .s files
+sh $PDIR/scripts/clean
+
+make -C $PDIR/plain/src/    -j$(nproc) CI=1 all
+make -C $PDIR/sslh/src/     -j$(nproc) CI=1 all
+make -C $PDIR/sslh_rsb/src/ -j$(nproc) CI=1 all
+
+# clean "old" bench-prepared
+rm -fr $BPACKAGE
+mkdir -p $BPACKAGE
+
+###############################################################################
+# create distribution package to run the benchmarks
+# - from src/, copy .s and api.h files
+# - copy bench/
+# - copy ext/ because of randombytes
+
+for dir in plain sslh sslh_rsb
+do
+
+  # api.h
+  find $PDIR/$dir -name api.h | \
+  while read file
+  do
+    source_path=$(dirname $file)
+    filename=$(basename $file)
+
+    dest_path=${source_path/$PDIR/$BPACKAGE}
+    
+    mkdir -p $dest_path
+    cp $source_path/$filename $dest_path/$filename
+
+  done
+
+  # .s ; empty .jazz ; "empty" Makefile
+  find $PDIR/$dir -name "*.s" | \
+  while read file
+  do
+    source_path=$(dirname $file)
+    filename=$(basename $file)
+
+    dest_path=${source_path/$PDIR/$BPACKAGE}
+    
+    mkdir -p $dest_path
+    cp $source_path/$filename $dest_path/$filename
+
+    # empty .jazz
+    filename=${filename/.s/.jazz}
+    touch $dest_path/$filename
+
+    # empty Makefile
+    echo "nothing:" > $dest_path/Makefile
+
+  done
+
+  # bench
+  cp -r $PDIR/$dir/bench $BPACKAGE/$dir/bench
+
+  # ext randombytes
+  cp -r $PDIR/$dir/ext $BPACKAGE/$dir/ext
+
+done
+
+###############################################################################
+# copy ssbd-tools and bench-run
+
+cp -r $PDIR/ssbd-tools $BPACKAGE/ssbd-tools
+cp $PDIR/scripts/bench-run $BPACKAGE/bench-run
+
+(cd $PDIR && tar cjf bench-prepared.tar.bz2 bench-prepared/)
+
+

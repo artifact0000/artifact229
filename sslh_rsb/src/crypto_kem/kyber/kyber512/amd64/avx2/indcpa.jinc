@@ -1,0 +1,291 @@
+from Jade require "crypto_kem/kyber/kyber512/common/params.jinc"
+from Jade require "crypto_kem/kyber/common/amd64/avx2/poly.jinc"
+from Jade require "crypto_kem/kyber/common/amd64/avx2/polyvec.jinc"
+require "gen_matrix.jinc"
+
+inline
+fn __indcpa_keypair(reg u64 pkp, reg u64 skp) -> #msf reg u64
+{
+  stack u64 spkp sskp;
+  stack u8[KYBER_SYMBYTES] rb;
+  stack u16[KYBER_K*KYBER_VECN] aa;
+  stack u16[KYBER_VECN] e pkpv skpv;
+  stack u8[64] buf;
+  stack u8[KYBER_SYMBYTES] publicseed noiseseed;
+  stack u8[32] inbuf;
+  reg u64 t64;
+  reg u8 nonce;
+  inline int i;
+  reg u64 ms;
+
+  spkp = pkp;
+  sskp = skp;
+
+  rb = #randombytes(rb);
+  ms = #init_msf();
+
+  for i=0 to KYBER_SYMBYTES/8
+  {
+    t64 = rb[u64 i];
+    inbuf[u64 i] = t64;
+  }
+
+  #update_after_call
+  buf, ms = _isha3_512_32(buf, inbuf, ms);
+
+  for i=0 to KYBER_SYMBYTES/8
+  {
+    t64 = buf[u64 i];
+    publicseed[u64 i] = t64;
+    t64 = buf[u64 i + KYBER_SYMBYTES/8];
+    noiseseed[u64 i] = t64;
+  }
+
+  aa, ms = __gen_matrix(publicseed, 0, ms);
+
+  nonce = 0;
+
+  #update_after_call
+  skpv[0:KYBER_N], skpv[KYBER_N:KYBER_N], e[0:KYBER_N], e[KYBER_N:KYBER_N], ms = _poly_getnoise_eta1_4x(skpv[0:KYBER_N], skpv[KYBER_N:KYBER_N], e[0:KYBER_N], e[KYBER_N:KYBER_N], noiseseed, nonce, ms);
+
+  skpv, ms = __polyvec_ntt(skpv, ms);
+  e, ms = __polyvec_ntt(e, ms);
+
+  for i=0 to KYBER_K
+  {
+    pkpv[i*KYBER_N:KYBER_N], ms = __polyvec_pointwise_acc(pkpv[i*KYBER_N:KYBER_N], aa[i*KYBER_VECN:KYBER_VECN], skpv, ms);
+
+    #update_after_call
+    pkpv[i*KYBER_N:KYBER_N], ms = _poly_frommont(pkpv[i*KYBER_N:KYBER_N], ms);
+  }
+
+  pkpv, ms = __polyvec_add2(pkpv, e, ms);
+  pkpv = __polyvec_reduce(pkpv);
+
+  pkp = spkp;
+  pkp = #protect(pkp, ms);
+  skp = sskp;
+  skp = #protect(skp, ms);
+
+  ms = __polyvec_tobytes(skp, skpv, ms);
+  ms = __polyvec_tobytes(pkp, pkpv, ms);
+
+  pkp += KYBER_POLYVECBYTES;
+
+  for i=0 to KYBER_SYMBYTES/8
+  {
+    t64 = publicseed[u64 i];
+    (u64)[pkp] = t64;
+    pkp += 8;
+  }
+
+  return ms;
+}
+
+// FIXME: E_EPTR
+inline
+fn __indcpa_enc_0(
+  stack u64 sctp,
+  reg ptr u8[KYBER_INDCPA_MSGBYTES] msgp,
+  reg u64 pkp,
+  reg ptr u8[KYBER_SYMBYTES] noiseseed,
+  #msf reg u64 ms
+) ->
+  #msf reg u64
+{
+  stack u16[KYBER_VECN] pkpv sp ep bp;
+  stack u16[KYBER_K*KYBER_VECN] aat;
+  stack u16[KYBER_N] k epp v;
+  stack u8[KYBER_SYMBYTES] publicseed;
+  stack ptr u8[KYBER_SYMBYTES] s_noiseseed;
+  reg ptr u8[KYBER_SYMBYTES] lnoiseseed;
+  reg u64 i ctp t64;
+  reg u8 nonce;
+  inline int w;
+  reg bool b;
+
+  pkpv, ms = __polyvec_frombytes(pkp, ms);
+
+  i = 0;
+  pkp += KYBER_POLYVECBYTES;
+  while { b = i < KYBER_SYMBYTES/8; } (b)
+  {
+    ms = #update_msf(b, ms);
+    t64 = (u64)[pkp];
+    publicseed[u64 (int)i] = t64;
+    pkp += 8;
+    i += 1;
+  }
+  ms = #update_msf(!b, ms);
+
+  #update_after_call
+  k, ms = _poly_frommsg_1(k, msgp, ms);
+
+  s_noiseseed = noiseseed;
+  aat, ms = __gen_matrix(publicseed, 1, ms);
+  lnoiseseed = s_noiseseed;
+  lnoiseseed = #protect_ptr(lnoiseseed, ms);
+
+  nonce = 0;
+  #update_after_call
+  sp[0:KYBER_N], sp[KYBER_N:KYBER_N], ep[0:KYBER_N], ep[KYBER_N:KYBER_N], ms = _poly_getnoise_eta1122_4x(sp[0:KYBER_N], sp[KYBER_N:KYBER_N], ep[0:KYBER_N], ep[KYBER_N:KYBER_N], lnoiseseed, nonce, ms);
+
+  nonce = 4;
+  lnoiseseed = s_noiseseed;
+  lnoiseseed = #protect_ptr(lnoiseseed, ms);
+
+  #update_after_call
+  epp, ms = _poly_getnoise(epp, lnoiseseed, nonce, ms);
+
+  sp, ms = __polyvec_ntt(sp, ms);
+
+  for w=0 to KYBER_K
+  {
+    bp[w*KYBER_N:KYBER_N], ms = __polyvec_pointwise_acc(bp[w*KYBER_N:KYBER_N], aat[w*KYBER_VECN:KYBER_VECN], sp, ms);
+  }
+
+  v, ms = __polyvec_pointwise_acc(v, pkpv, sp, ms);
+
+  bp, ms = __polyvec_invntt(bp, ms);
+
+  #update_after_call
+  v, ms = _poly_invntt(v, ms);
+
+  bp, ms = __polyvec_add2(bp, ep, ms);
+
+  #update_after_call
+  v, ms = _poly_add2(v, epp, ms);
+
+  #update_after_call
+  v, ms = _poly_add2(v, k, ms);
+
+  bp = __polyvec_reduce(bp);
+  v  = __poly_reduce(v);
+
+  ctp = sctp;
+  ctp = #protect(ctp, ms);
+  ms = __polyvec_compress(ctp, bp, ms);
+  ctp += KYBER_POLYVECCOMPRESSEDBYTES;
+
+  #update_after_call
+  v, ms = _poly_compress(ctp, v, ms);
+
+  return ms;
+}
+
+// FIXME: E_EPTR
+inline
+fn __indcpa_enc_1(reg ptr u8[KYBER_INDCPA_BYTES] ctp, reg ptr u8[KYBER_INDCPA_MSGBYTES] msgp, reg u64 pkp, reg ptr u8[KYBER_SYMBYTES] noiseseed, #msf reg u64 ms) -> reg ptr u8[KYBER_INDCPA_BYTES], #msf reg u64
+{
+  stack u16[KYBER_VECN] pkpv sp ep bp;
+  stack u16[KYBER_K*KYBER_VECN] aat;
+  stack u16[KYBER_N] k epp v;
+  stack u8[KYBER_SYMBYTES] publicseed;
+  stack ptr u8[KYBER_SYMBYTES] s_noiseseed;
+  reg ptr u8[KYBER_SYMBYTES] lnoiseseed;
+  stack ptr u8[KYBER_INDCPA_BYTES] sctp;
+  reg u64 i t64;
+  reg u8 nonce;
+  inline int w;
+  reg bool b;
+
+  sctp = ctp;
+
+  pkpv, ms = __polyvec_frombytes(pkp, ms);
+
+  i = 0;
+  pkp += KYBER_POLYVECBYTES;
+  while { b = i < KYBER_SYMBYTES/8; } (b)
+  {
+    ms = #update_msf(b, ms);
+    t64 = (u64)[pkp];
+    publicseed[u64 (int)i] = t64;
+    pkp += 8;
+    i += 1;
+  }
+  ms = #update_msf(!b, ms);
+
+  #update_after_call
+  k, ms = _poly_frommsg_1(k, msgp, ms);
+
+  s_noiseseed = noiseseed;
+  aat, ms = __gen_matrix(publicseed, 1, ms);
+  lnoiseseed = s_noiseseed;
+  lnoiseseed = #protect_ptr(lnoiseseed, ms);
+
+  nonce = 0;
+  #update_after_call
+  sp[0:KYBER_N], sp[KYBER_N:KYBER_N], ep[0:KYBER_N], ep[KYBER_N:KYBER_N], ms = _poly_getnoise_eta1122_4x(sp[0:KYBER_N], sp[KYBER_N:KYBER_N], ep[0:KYBER_N], ep[KYBER_N:KYBER_N], lnoiseseed, nonce, ms);
+
+  nonce = 4;
+  lnoiseseed = s_noiseseed;
+  lnoiseseed = #protect_ptr(lnoiseseed, ms);
+
+  #update_after_call
+  epp, ms = _poly_getnoise(epp, lnoiseseed, nonce, ms);
+
+  sp, ms = __polyvec_ntt(sp, ms);
+
+  for w=0 to KYBER_K
+  {
+    bp[w*KYBER_N:KYBER_N], ms = __polyvec_pointwise_acc(bp[w*KYBER_N:KYBER_N], aat[w*KYBER_VECN:KYBER_VECN], sp, ms);
+  }
+ 
+  v, ms = __polyvec_pointwise_acc(v, pkpv, sp, ms);
+
+  bp, ms = __polyvec_invntt(bp, ms);
+  #update_after_call
+  v, ms = _poly_invntt(v, ms);
+
+  bp, ms = __polyvec_add2(bp, ep, ms);
+  #update_after_call
+  v, ms = _poly_add2(v, epp, ms);
+  #update_after_call
+  v, ms = _poly_add2(v, k, ms);
+  bp = __polyvec_reduce(bp);
+  v  = __poly_reduce(v);
+
+  ctp = sctp;
+  ctp = #protect_ptr(ctp, ms);
+  ctp[0:KYBER_POLYVECCOMPRESSEDBYTES], ms = __polyvec_compress_1(ctp[0:KYBER_POLYVECCOMPRESSEDBYTES], bp, ms);
+
+  #update_after_call
+  ctp[KYBER_POLYVECCOMPRESSEDBYTES:KYBER_POLYCOMPRESSEDBYTES], v, ms = _poly_compress_1(ctp[KYBER_POLYVECCOMPRESSEDBYTES:KYBER_POLYCOMPRESSEDBYTES], v, ms);
+
+  return ctp, ms;
+}
+
+
+inline
+fn __indcpa_dec(reg ptr u8[KYBER_INDCPA_MSGBYTES] msgp, reg u64 ctp, reg u64 skp, #msf reg u64 ms) -> reg ptr u8[KYBER_INDCPA_MSGBYTES], #msf reg u64
+{
+  stack u16[KYBER_N] t v mp;
+  stack u16[KYBER_VECN] bp skpv;
+
+  bp = __polyvec_decompress(ctp);
+  ctp += KYBER_POLYVECCOMPRESSEDBYTES;
+
+  // Only called once....
+  #inline
+  v = _poly_decompress(v, ctp);
+
+  skpv, ms = __polyvec_frombytes(skp, ms);
+  
+  bp, ms = __polyvec_ntt(bp, ms);
+  t, ms = __polyvec_pointwise_acc(t, skpv, bp, ms);
+
+  #update_after_call
+  t, ms = _poly_invntt(t, ms);
+
+  msgp = #protect_ptr(msgp, ms);
+
+  // Only used once....
+  #inline
+  mp = _poly_sub(mp, v, t);
+  mp = __poly_reduce(mp);
+  
+  #update_after_call
+  msgp, mp, ms = _poly_tomsg_1(msgp, mp, ms);
+
+  return msgp, ms;
+}
